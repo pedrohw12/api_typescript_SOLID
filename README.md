@@ -17,6 +17,6 @@
 - Para verificar os logs da aplicação (inclusive os console.log que forem criados para debug da aplicação): <b>docker logs rentx -f</b>
 
 # Migrations
-- yarn typeorm migration:create NomeDaMigration
+- yarn typeorm migration:create -n NomeDaMigration
 - yarn typeorm migration:run
 - yarn typeorm migration:revert
