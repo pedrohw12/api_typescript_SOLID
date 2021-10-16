@@ -1,10 +1,10 @@
 import { inject, injectable } from "tsyringe";
 import { verify, sign } from "jsonwebtoken";
 
-import { IUsersTokensRepository } from "../../../../modules/accounts/repositories/IUsersTokensRepository";
-import auth from "../../../../config/auth";
-import { AppError } from "../../../../shared/errors/AppError";
-import { IDateProvider } from "../../../../shared/container/providers/DateProvider/IDateProvider";
+import { IUsersTokensRepository } from "@modules/accounts/repositories/IUsersTokensRepository";
+import auth from "@config/auth";
+import { AppError } from "@shared/errors/AppError";
+import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 
 interface IPayload {
   sub: string;
@@ -30,11 +30,10 @@ class RefreshTokenUseCase {
 
     const user_id = sub;
 
-    const userToken =
-      await this.usersTokensRepository.findByUserIdAndRefreshToken(
-        user_id,
-        token
-      );
+    const userToken = await this.usersTokensRepository.findByUserIdAndRefreshToken(
+      user_id,
+      token
+    );
 
     if (!userToken) {
       throw new AppError("Refresh Token does not exists!");
