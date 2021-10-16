@@ -2,12 +2,13 @@ import csvParse from "csv-parse";
 import fs from "fs";
 import { inject, injectable } from "tsyringe";
 
-import { ICategoriesRepository } from "../../repositories/ICategoriesRepository";
+import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
 
 interface IImportCategory {
   name: string;
   description: string;
 }
+
 @injectable()
 class ImportCategoryUseCase {
   constructor(
@@ -22,21 +23,18 @@ class ImportCategoryUseCase {
 
       const parseFile = csvParse();
 
-      // pega o pedaço lido do file e passa para o parseFile
       stream.pipe(parseFile);
 
       parseFile
         .on("data", async (line) => {
           const [name, description] = line;
-
           categories.push({
             name,
             description,
           });
         })
         .on("end", () => {
-          fs.promises.unlink(file.path); // deletando o arquivo da pasta temporária após já ter feito o upload deste arquivo para o DB
-
+          fs.promises.unlink(file.path);
           resolve(categories);
         })
         .on("error", (err) => {
@@ -51,9 +49,9 @@ class ImportCategoryUseCase {
     categories.map(async (category) => {
       const { name, description } = category;
 
-      const existsCategory = await this.categoriesRepository.findByName(name);
+      const existCategory = await this.categoriesRepository.findByName(name);
 
-      if (!existsCategory) {
+      if (!existCategory) {
         await this.categoriesRepository.create({
           name,
           description,

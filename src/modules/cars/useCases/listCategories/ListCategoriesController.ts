@@ -7,9 +7,9 @@ class ListCategoriesController {
   async handle(request: Request, response: Response): Promise<Response> {
     const listCategoriesUseCase = container.resolve(ListCategoriesUseCase);
 
-    const categories = await listCategoriesUseCase.execute();
+    const all = await listCategoriesUseCase.execute();
 
-    return response.json(categories);
+    return response.json(all);
   }
 }
 

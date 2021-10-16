@@ -4,7 +4,7 @@ import "./database";
 
 import "./shared/container";
 
-import { router } from "./routes";
+import { router } from "./shared/infra/http/routes";
 
 const app = express();
 
